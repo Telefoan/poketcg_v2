@@ -1098,24 +1098,24 @@ NidokingCard:
 
 	; attack 1
 	energy GRASS, 1, COLORLESS, 2 ; energies
-	tx ThrashName ; name
-	tx ThrashDescription ; description
+	tx ReversalName ; name
+	tx ReversalDescription ; description
 	dw NONE ; description (cont)
-	db 30 ; damage
+	db 20 ; damage
 	db DAMAGE_PLUS ; category
-	dw Plus10OrRecoilEffectCommands ; effect commands
-	db LOW_RECOIL ; flags 1
-	db NONE ; flags 2
-	db NONE ; flags 3
-	db 0 ; amount of recoil damage (used to determine the LOW_RECOIL attack score penalty)
+	dw RageAndMayConfuseSelfEffectCommands ; effect commands
+	db NONE ; flags 1
+	db DISCOURAGE_THIS_ATTACK ; flags 2
+	db BOOST_IF_TAKEN_DAMAGE ; flags 3
+	db 1 ; attack score penalty for DISCOURAGE_THIS_ATTACK
 	db ATK_ANIM_MULTIPLE_SLASH ; animation
 
 	; attack 2
-	energy GRASS, 3 ; energies
+	energy GRASS, 3, COLORLESS, 2 ; energies
 	tx ToxicName ; name
 	tx ToxicDescription ; description
 	dw NONE ; description (cont)
-	db 20 ; damage
+	db 40 ; damage
 	db DAMAGE_NORMAL ; category
 	dw ToxicEffectCommands ; effect commands
 	db INFLICT_POISON ; flags 1

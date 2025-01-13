@@ -1582,4 +1582,14 @@ KinglerDescription:
 	line "unwieldy to use."
 	done
 
+ReversalName:
+	text "Reversal"
+	done
+
+ThrashDescription:
+	text "This attack does 20 damage plus"
+	line "10 damage for each damage counter"
+	line "on this pokemon."
+	done
+
 ;	ds $21
