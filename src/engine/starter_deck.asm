@@ -99,10 +99,13 @@ InitSaveData::
 ; change every card in the collection to not owned
 	call EnableSRAM
 	ld hl, sCardCollection
-	ld a, CARD_NOT_OWNED
+	ld bc, CARD_COLLECTION_SIZE
 .loop_collection
-	ld [hl], a
-	inc l
+	ld a, CARD_NOT_OWNED
+	ld [hli], a
+	dec bc
+	ld a, b
+	or c
 	jr nz, .loop_collection
 
 	ld hl, sCurrentDuel

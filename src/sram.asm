@@ -44,7 +44,7 @@ sCardAndDeckSaveData::
 ; for each card, how many (0-127) the player owns
 ; CARD_NOT_OWNED ($80) indicates that the player has not yet seen the card
 sCardCollection:: ; a100
-	ds $100
+	ds CARD_COLLECTION_SIZE
 
 sBuiltDecks::
 sDeck1:: deck_struct sDeck1 ; a200

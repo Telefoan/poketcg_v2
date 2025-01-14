@@ -216,8 +216,10 @@ CreateCardSetListAndInitListCoords:
 	push af
 	ld hl, sCardCollection
 	ld de, wTempCardCollection
-	ld b, CARD_COLLECTION_SIZE - 1
-	call CopyNBytesFromHLToDEInSRAM
+	ld bc, CARD_COLLECTION_SIZE - 2
+	call EnableSRAM
+	call CopyNBytesFromHLToDE_Long
+	call DisableSRAM
 	pop af
 
 	push af

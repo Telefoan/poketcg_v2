@@ -27,7 +27,7 @@ GetAmountOfCardsOwned::
 	jr nz, .next_deck
 	; hl = DECK_SIZE * (number of non-empty decks)
 	ld de, sCardCollection
-	ld b, $00
+	ld bc, CARD_COLLECTION_SIZE
 .next_card
 	ld a, [de]
 	bit CARD_NOT_OWNED_F, a
@@ -217,7 +217,8 @@ RemoveCardFromCollection::
 GetCardAlbumProgress::
 	push hl
 	call EnableSRAM
-	ld e, NUM_CARDS
+	ld de, 0
+	ld hl, sCardCollection
 	ld h, HIGH(sCardCollection)
 	ld l, VENUSAUR_LV64
 	bit CARD_NOT_OWNED_F, [hl]
@@ -236,7 +237,12 @@ GetCardAlbumProgress::
 	jr nz, .skip
 	inc d ; if this card is owned
 .skip
-	inc l
-	jr nz, .next_card ; assumes sCardCollection is $100 bytes long (CARD_COLLECTION_SIZE)
+	inc hl
+	ld a, l
+	cp LOW(sCardCollection + CARD_COLLECTION_SIZE)
+	jr nz, .next_card
+	ld a, h
+	cp HIGH(sCardCollection + CARD_COLLECTION_SIZE)
+	jr nz, .next_card
 	pop hl
 	jp DisableSRAM

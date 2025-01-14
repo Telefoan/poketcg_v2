@@ -568,6 +568,7 @@ InitBoosterData:
 	jr nz, .clear_player_deck_loop
 	; c = $00, so the following code will loop $100 times
 	ld hl, wTempCardCollection
+	ld bc, CARD_COLLECTION_SIZE
 .clear_temp_card_collection_loop
 	ld [hli], a
 	dec c

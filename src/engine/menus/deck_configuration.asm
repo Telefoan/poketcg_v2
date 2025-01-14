@@ -1687,10 +1687,12 @@ PrintFilteredCardList:
 	push af
 
 ; copy sCardCollection to wTempCardCollection
+	call EnableSRAM
 	ld hl, sCardCollection
 	ld de, wTempCardCollection
-	ld b, CARD_COLLECTION_SIZE - 1
-	call CopyNBytesFromHLToDEInSRAM
+	ld b, CARD_COLLECTION_SIZE - 2
+	call CopyNBytesFromHLToDE_Long
+	call DisableSRAM
 
 	ld a, [wIncludeCardsInDeck]
 	or a
@@ -3138,8 +3140,10 @@ CreateCardCollectionListWithDeckCards:
 ; copies sCardCollection to wTempCardCollection
 	ld hl, sCardCollection
 	ld de, wTempCardCollection
-	ld b, CARD_COLLECTION_SIZE - 1
-	call CopyNBytesFromHLToDEInSRAM
+	ld b, CARD_COLLECTION_SIZE - 2
+	call EnableSRAM
+	call CopyNBytesFromHLToDE_Long
+	call DisableSRAM
 
 ; deck_1
 	ldh a, [hffb5]

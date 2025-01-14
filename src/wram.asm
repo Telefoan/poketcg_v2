@@ -8,7 +8,7 @@ SECTION "WRAM0", WRAM0
 UNION
 
 wTempCardCollection:: ; c000
-	ds $100
+	ds CARD_COLLECTION_SIZE
 
 NEXTU
 
