@@ -1975,6 +1975,34 @@ _DisplayCardDetailScreen:
 	pop hl
 	jp DrawWideTextBox_WaitForInput
 
+SendEnergyToTheEnergyZone:
+    ldh a, [hWhoseTurn]
+    ld h, a
+    ld l, DUELVARS_NUMBER_OF_CARDS_NOT_IN_DECK
+    ld a, 40 ; You could make this a contant (e.g. ENERGY_ZONE_SIZE)
+    ld [hld], a
+    ; hl now points to the last card in the deck list
+    ld b, h
+    xor a
+    ld c, a ;  0 (initial deck index to check, also DUELVARS_CARD_LOCATIONS)
+.loop
+    call GetCardIDFromDeckIndex
+    call GetCardType
+    and TYPE_ENERGY
+    jr z, .keep_in_deck
+    ; this card is an Energy, so reassign it to the Energy Zone
+    ld a, CARD_LOCATION_ENERGY_ZONE
+    ld [bc], a
+    jr .next_card
+.keep_in_deck
+    ld [hl], c ; write current deck index to the list of deck cards
+    dec l
+.next_card
+    inc c
+    ld a, c
+    cp DECK_SIZE
+    jr c, .loop
+    ret
 
 ; input:
 ;	wDuelTempList = $ff terminated list with deck indices of cards
@@ -2001,6 +2029,7 @@ DisplayCardListDetails:
 HandleDuelSetup:
 ; init variables and shuffle cards
 	call InitDuelVariables_BothDuelists
+	call SendEnergyToTheEnergyZone
 	call PlayShuffleAndDrawCardsAnimation_BothDuelists
 	call ShuffleDeckAndDrawSevenCards
 	ldh [hTemp_ffa0], a
