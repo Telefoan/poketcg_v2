@@ -1729,23 +1729,17 @@ LovelyNidoranDeck:
 
 PoisonDeck:
 	deck_list_start
-	card_item GRASS_ENERGY,           24
-	card_item WEEDLE,                  3
-	card_item KAKUNA,                  2
-	card_item BEEDRILL,                1
-	card_item EKANS,                   4
-	card_item ARBOK,                   3
-	card_item NIDORANM,                4
-	card_item NIDORINO,                3
-	card_item NIDOKING,                2
-	card_item KOFFING,                 3
+	card_item GRASS_ENERGY,           40
+	card_item EKANS,                   2
+	card_item ARBOK,                   2
+	card_item KOFFING,                 2
 	card_item WEEZING,                 2
-	card_item PROFESSOR_OAK,           1
+	card_item PROFESSOR_OAK,           2
 	card_item IMPOSTER_PROFESSOR_OAK,  2
-	card_item POKEMON_BREEDER,         1
+	card_item POKEMON_BREEDER,         2
 	card_item POTION,                  2
 	card_item FULL_HEAL,               2
-	card_item GAMBLER,                 1
+	card_item GAMBLER,                 2
 	deck_list_end
 	tx PoisonDeckName
 

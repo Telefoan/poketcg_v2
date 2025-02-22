@@ -150,7 +150,7 @@ OpenInPlayAreaScreen::
 	; bench slots have dummy text IDs assigned to them, which are never used.
 	; these are secretly not text id's, but rather, 2-byte PLAY_AREA_BENCH_* constants
 	; check if the value at register l is one of those, and jump ahead if not
-	cp PLAY_AREA_BENCH_5 + $01
+	cp PLAY_AREA_BENCH_3 + $01
 	jr nc, .print_hand_or_discard_pile
 
 ; if we make it here, we need to print a Pokemon card name.

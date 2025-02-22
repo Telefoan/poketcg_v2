@@ -2174,8 +2174,8 @@ HandleAIEnergyScoringForRepeatedBenchPokemon:
 	; has repeated card IDs in the Bench
 	; find which one has highest score
 	lb bc, 0, 0
-	ld hl, wSamePokemonEnergyScore + PLAY_AREA_BENCH_5
-	ld d, PLAY_AREA_BENCH_5 + 1
+	ld hl, wSamePokemonEnergyScore + PLAY_AREA_BENCH_3
+	ld d, PLAY_AREA_BENCH_3 + 1
 .loop_2
 	dec d
 	jr z, .got_highest_score

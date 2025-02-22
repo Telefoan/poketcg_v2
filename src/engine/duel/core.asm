@@ -2030,6 +2030,9 @@ HandleDuelSetup:
 ; init variables and shuffle cards
 	call InitDuelVariables_BothDuelists
 	call SendEnergyToTheEnergyZone
+	rst SwapTurn
+	call SendEnergyToTheEnergyZone
+	rst SwapTurn
 	call PlayShuffleAndDrawCardsAnimation_BothDuelists
 	call ShuffleDeckAndDrawSevenCards
 	ldh [hTemp_ffa0], a

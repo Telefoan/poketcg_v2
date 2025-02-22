@@ -148,8 +148,8 @@ MACRO duel_vars
 \1Bench1CardStage::              ds $1
 \1Bench2CardStage::              ds $1
 \1Bench3CardStage::              ds $1
-\1Bench4CardStage::              ds $1
-\1Bench5CardStage::              ds $1
+;\1Bench4CardStage::              ds $1
+;\1Bench5CardStage::              ds $1
 
 ; changed type from Venomoth's Shift Pokemon Power
 ; if bit 7 == 1, then bits 0-3 override the Pokemon's actual color
@@ -157,22 +157,22 @@ MACRO duel_vars
 \1Bench1CardChangedType::        ds $1
 \1Bench2CardChangedType::        ds $1
 \1Bench3CardChangedType::        ds $1
-\1Bench4CardChangedType::        ds $1
-\1Bench5CardChangedType::        ds $1
+;\1Bench4CardChangedType::        ds $1
+;\1Bench5CardChangedType::        ds $1
 
 \1ArenaCardAttachedDefender::    ds $1
 \1Bench1CardAttachedDefender::   ds $1
 \1Bench2CardAttachedDefender::   ds $1
 \1Bench3CardAttachedDefender::   ds $1
-\1Bench4CardAttachedDefender::   ds $1
-\1Bench5CardAttachedDefender::   ds $1
+;\1Bench4CardAttachedDefender::   ds $1
+;\1Bench5CardAttachedDefender::   ds $1
 
 \1ArenaCardAttachedPluspower::   ds $1
 \1Bench1CardAttachedPluspower::  ds $1
 \1Bench2CardAttachedPluspower::  ds $1
 \1Bench3CardAttachedPluspower::  ds $1
-\1Bench4CardAttachedPluspower::  ds $1
-\1Bench5CardAttachedPluspower::  ds $1
+;\1Bench4CardAttachedPluspower::  ds $1
+;\1Bench5CardAttachedPluspower::  ds $1
 
 	ds $1
 
@@ -222,5 +222,7 @@ MACRO duel_vars
 ; see LAST_TURN_EFFECT_* constants.
 \1ArenaCardLastTurnEffect::      ds $1
 
-	ds $7
+\1EnergyZone::		ds $1
+
+	ds $10
 ENDM
