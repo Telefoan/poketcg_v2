@@ -248,6 +248,8 @@ HandleTurn:
 	call InitVariablesToBeginTurn
 	call DisplayDrawOneCardScreen
 	call DrawCardFromDeck
+	call ReturnEnergyFromTheEnergyZone
+	call AddCardToHand
 	jr nc, .deck_not_empty
 	ld a, TURN_PLAYER_LOST
 	ld [wDuelFinished], a
@@ -848,14 +850,16 @@ PlayEnergyCard:
 	jr nc, .rain_dance_active
 
 .rain_dance_not_active
-	ld a, [wAlreadyPlayedEnergy]
+	ld a, [wOncePerTurnFlags]
+	and ALREADY_PLAYED_ENERGY
 	or a
 	jr nz, .already_played_energy
 	call InitVarsAndOpenPlayAreaScreenForSelection ; choose Pokemon to attach Energy card to
 	jr c, .exit ; exit if the B button was pressed
 .play_energy_set_played
 	ld a, TRUE
-	ld [wAlreadyPlayedEnergy], a
+	ld [wOncePerTurnFlags], a
+	and ALREADY_PLAYED_ENERGY
 .play_energy
 	ldh a, [hTempPlayAreaLocation_ff9d]
 	ldh [hTempPlayAreaLocation_ffa1], a
@@ -881,7 +885,8 @@ PlayEnergyCard:
 	cp TYPE_ENERGY_WATER
 	jr z, .play_energy ; ignore once per turn restriction if a Water Energy is being attached to a Water Pokémon
 .no_rain_dance
-	ld a, [wAlreadyPlayedEnergy]
+	ld a, [wOncePerTurnFlags]
+	and ALREADY_PLAYED_ENERGY
 	or a
 	jr z, .play_energy_set_played
 	ldtx hl, MayOnlyAttachOneEnergyCardText
@@ -2004,6 +2009,35 @@ SendEnergyToTheEnergyZone:
     jr c, .loop
     ret
 
+ReturnEnergyFromTheEnergyZone:
+    ldh a, [hWhoseTurn]
+    ld h, a
+    ld l, DUELVARS_NUMBER_OF_CARDS_NOT_IN_DECK
+    ld a, 1 ; You could make this a contant (e.g. ENERGY_ZONE_SIZE)
+    ld [hld], a
+    ; hl now points to the last card in the deck list
+    ld b, h
+    xor a
+    ld c, a ;  0 (initial deck index to check, also DUELVARS_CARD_LOCATIONS)
+.loop
+    call GetCardIDFromDeckIndex
+    call GetCardType
+    and TYPE_ENERGY
+    jr z, .keep_in_deck
+    ; this card is an Energy, so reassign it to the Energy Zone
+    ld a, CARD_LOCATION_JUST_DRAWN
+    ld [bc], a
+    jr .next_card
+.keep_in_deck
+    ld [hl], c ; write current deck index to the list of deck cards
+    dec l
+.next_card
+    inc c
+    ld a, c
+    cp DECK_SIZE
+    jr c, .loop
+    ret
+
 ; input:
 ;	wDuelTempList = $ff terminated list with deck indices of cards
 DisplayCardListDetails:
@@ -2335,7 +2369,7 @@ ShuffleDeckAndDrawSevenCards:
 	call ShuffleDeck
 	call ShuffleDeck
 .deck_ready
-	ld b, 7
+	ld b, 5
 .draw_loop
 	call DrawCardFromDeck
 	call AddCardToHand
@@ -2343,7 +2377,7 @@ ShuffleDeckAndDrawSevenCards:
 	jr nz, .draw_loop
 	ld a, DUELVARS_HAND
 	get_turn_duelist_var
-	ld b, 7
+	ld b, 5
 .cards_loop
 	ld a, [hli]
 	call CheckDeckIndexForBasicPokemon
@@ -7018,7 +7052,8 @@ OppAction_PlayEnergyCard:
 	call DrawLargePictureOfCard
 	call PrintAttachedEnergyToPokemon
 	ld a, TRUE
-	ld [wAlreadyPlayedEnergy], a
+	ld [wOncePerTurnFlags], a
+	and ALREADY_PLAYED_ENERGY
 	jp DrawDuelMainScene
 
 
@@ -7378,7 +7413,8 @@ SetAllPlayAreaPokemonCanEvolve:
 ; preserves all registers except af
 InitVariablesToBeginTurn:
 	xor a
-	ld [wAlreadyPlayedEnergy], a
+	ld [wOncePerTurnFlags], a
+	and ALREADY_PLAYED_ENERGY
 	ld [wConfusionRetreatCheckWasUnsuccessful], a
 	ld [wGotHeadsFromSmokescreenCheck], a
 	ldh a, [hWhoseTurn]

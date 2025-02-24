@@ -745,7 +745,8 @@ AITryToRetreat:
 ; finally, check if there are any Energy cards in the AI's hand.
 ; if all of the checks are successful, then attach an Energy card
 ; to the Active Pokémon before moving on to the next section.
-	ld a, [wAlreadyPlayedEnergy]
+	ld a, [wOncePerTurnFlags]
+	and ALREADY_PLAYED_ENERGY
 	or a
 	jr nz, .check_id
 	xor a ; PLAY_AREA_ARENA

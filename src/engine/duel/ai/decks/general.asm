@@ -54,7 +54,8 @@ AIMainTurnLogic:
 	ld a, AI_TRAINER_CARD_PHASE_12
 	call AIProcessHandTrainerCards
 ; play Energy card if possible
-	ld a, [wAlreadyPlayedEnergy]
+	ld a, [wOncePerTurnFlags]
+	and ALREADY_PLAYED_ENERGY
 	or a
 	call z, AIProcessAndTryToPlayEnergy
 ; play Pokemon from hand again
@@ -102,7 +103,8 @@ AIMainTurnLogic:
 	call AIProcessHandTrainerCards
 	ld a, AI_TRAINER_CARD_PHASE_12
 	call AIProcessHandTrainerCards
-	ld a, [wAlreadyPlayedEnergy]
+	ld a, [wOncePerTurnFlags]
+	and ALREADY_PLAYED_ENERGY
 	or a
 	call z, AIProcessAndTryToPlayEnergy
 	call AIDecidePlayPokemonCard
